@@ -1,41 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { useForm, FormProvider } from "react-hook-form";
-
-import BodyForm from "../components/BodyForm";
-import UploadAndTextBox from "../components/UploadAndTextBox";
-import CanvasModel from "../canvas";
-import Image from "../assets/placeholder.png"; // use a placeholder image
+import React, { useEffect, useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import BodyControls from '../components/BodyControls';
+import UploadPreview from '../components/UploadPreview';
+import TextInputBox from '../components/TextInputBox';
+import CanvasModel from '../canvas/CanvasModel';
 
 const CustomizerForm = () => {
   const methods = useForm();
-  const [viewMode, setViewMode] = useState("image"); // 'image' | '3d'
+  const [viewMode, setViewMode] = useState('image');
 
   useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.altKey && e.key.toLowerCase() === "q") {
-        setViewMode((prev) => (prev === "image" ? "3d" : "image"));
+    const handleKeyDown = (e) => {
+      if (e.altKey && e.key.toLowerCase() === 'q') {
+        setViewMode((prev) => (prev === 'image' ? '3d' : 'image'));
       }
     };
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
-
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-  };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} className="p-6 flex flex-col md:flex-row gap-6">
-        <BodyForm />
-        <UploadAndTextBox register={methods.register} setValue={methods.setValue} />
+      <form className="flex flex-col md:flex-row p-4 gap-6">
+        <BodyControls />
+        <UploadPreview setValue={methods.setValue} />
         <div className="flex-1">
-          {viewMode === "image" ? (
-            <img src={Image} alt="Design preview" className="w-full" />
-          ) : (
-            <CanvasModel />
-          )}
+          {viewMode === 'image' ? <img src="/default-design.png" alt="Design" className="w-full h-full object-contain" /> : <CanvasModel />}
         </div>
+        <TextInputBox register={methods.register} />
       </form>
     </FormProvider>
   );

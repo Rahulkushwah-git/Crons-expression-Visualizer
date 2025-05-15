@@ -1,7 +1,7 @@
 import Canvas from "./canvas/index.jsx";
 import Customizer from "./pages/Customizer.jsx";
 import Home from "./pages/Home.jsx";
-import CustomizerForm from "./pages/CustomizerForm";
+import CustomizerForm from './pages/CustomizerForm';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <Home />
       <Canvas />
       <Customizer />
-      <CustomizerForm />
+       <CustomizerForm />
     </main>
   );
 }
